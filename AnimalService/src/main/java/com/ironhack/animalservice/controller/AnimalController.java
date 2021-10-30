@@ -24,8 +24,22 @@ public class AnimalController {
         return repository.getByAgeBetween(startAge, endAge);
     }*/
 
+    @GetMapping("/{id}")
+    public AnimalDAO findById(@PathVariable Long animalId){
+        Optional<AnimalDAO> animal = repository.findById(animalId);
+        if (animal.isPresent()){
+            return animal.get();
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no animal with id: " + animalId);
+    }
+
+    @GetMapping("/all")
+    public List<AnimalDAO> animalList(){
+        return repository.findAll();
+    }
+
     @GetMapping
-    public List<AnimalDAO> findByTypeAndAgeAndType(@RequestParam int startAge, @RequestParam int endAge, @RequestParam AnimalType type){
+    public List<AnimalDAO> findByAgeRangeAndType(@RequestParam int startAge, @RequestParam int endAge, @RequestParam AnimalType type){
         return repository.getByAgeBetweenAndType(startAge, endAge, type);
     }
 
