@@ -16,13 +16,13 @@ import java.util.List;
 @FeignClient("ADOPTER-SERVICE")
 public interface AdopterServiceProxy {
 
-    @PostMapping
+    @PostMapping("/adopter")
     @ResponseStatus(HttpStatus.CREATED)
     public AdopterReceiptDTO create(@RequestBody AdopterRequestDTO adopterRequestDTO);
 
-    @GetMapping
+    @GetMapping("/adopter")
     public List<Adopter> findAllAdopters();
 
-    @GetMapping("/populate")
+    @GetMapping("/adopter/populate")
     public void populate();
 }

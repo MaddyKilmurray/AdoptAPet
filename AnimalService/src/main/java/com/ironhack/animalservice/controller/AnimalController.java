@@ -25,12 +25,12 @@ public class AnimalController {
     }*/
 
     @GetMapping("/{id}")
-    public AnimalDAO findById(@PathVariable Long animalId){
-        Optional<AnimalDAO> animal = repository.findById(animalId);
+    public AnimalDAO findById(@PathVariable(name = "id") Long id){
+        Optional<AnimalDAO> animal = repository.findById(id);
         if (animal.isPresent()){
             return animal.get();
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no animal with id: " + animalId);
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no animal with id: " + id);
     }
 
     @GetMapping("/all")

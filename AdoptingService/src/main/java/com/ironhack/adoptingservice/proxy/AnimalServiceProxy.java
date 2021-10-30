@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @FeignClient("ANIMAL-SERVICE")
+@RequestMapping("/animal")
 public interface AnimalServiceProxy {
 
     @GetMapping
@@ -20,4 +21,6 @@ public interface AnimalServiceProxy {
     @PatchMapping("/adoptable")
     public AnimalDAO updateStatus(@RequestParam Long animalId, @RequestParam boolean status);
 
+    @GetMapping("/{id}")
+    public AnimalDAO findById(@PathVariable Long id);
 }
