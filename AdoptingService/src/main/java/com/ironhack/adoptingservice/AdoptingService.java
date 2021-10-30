@@ -1,9 +1,7 @@
 package com.ironhack.adoptingservice;
 
 import com.ironhack.adoptingservice.dao.AnimalDAO;
-import com.ironhack.adoptingservice.dto.AdoptedDTO;
-import com.ironhack.adoptingservice.dto.AdopterDTO;
-import com.ironhack.adoptingservice.dto.AnimalDTO;
+import com.ironhack.adoptingservice.dto.*;
 import com.ironhack.adoptingservice.enums.AnimalType;
 import com.ironhack.adoptingservice.proxy.AdopterServiceProxy;
 import com.ironhack.adoptingservice.proxy.AnimalServiceProxy;
@@ -31,7 +29,7 @@ public class AdoptingService {
         this.circuitBreakerFactory = circuitBreakerFactory;
     }
 
-    public AdoptedDTO adoptAPet(Long id, AdopterDTO adopterDTO) {
+    public AdoptedDTO adoptAPet(Long id, AdopterRequestDTO adopterDTO) {
         AnimalDTO foundAnimal = findAnimalById(id);
         if (foundAnimal == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"The requested pet could not be found.");
@@ -41,7 +39,8 @@ public class AdoptingService {
         }
         createAdopter(adopterDTO);
         updateStatus(id,false);
-        AdoptedDTO adoptedDTO = new AdoptedDTO();
+        AdoptedDTO adoptedDTO = new AdoptedDTO(foundAnimal.getName(), foundAnimal.getType(), adopterDTO.getName());
+        return adoptedDTO;
     }
 
     public AnimalDTO findAnimalById(Long id) {
@@ -62,9 +61,9 @@ public class AdoptingService {
                 throwable -> getListFallback());
     }
 
-    public void createAdopter(AdopterDTO adopterDTO) {
+    public AdopterReceiptDTO createAdopter(AdopterRequestDTO adopterDTO) {
         CircuitBreaker circuitBreaker = createCircuitBreaker();
-        return circuitBreaker.run(() -> adopterServiceProxy.createAdopter(adopterDTO),
+        return circuitBreaker.run(() -> adopterServiceProxy.create(adopterDTO),
                 throwable -> createAdopterFallback());
     }
 
@@ -81,11 +80,11 @@ public class AdoptingService {
         return null;
     }
 
-    public void createAdopterFallback() {
-        return;
+    public AdopterReceiptDTO createAdopterFallback() {
+        return null;
     }
 
     public AnimalDAO patchAnimalFallback() {
-        return;
+        return null;
     }
 }
