@@ -18,7 +18,7 @@ public interface AnimalServiceProxy {
     @GetMapping
     public List<AnimalDAO> findByTypeAndAgeAndType(@RequestParam int startAge, @RequestParam int endAge, @RequestParam AnimalType type);
 
-    @PatchMapping("/adoptable")
+    @PutMapping("/adoptable")
     public AnimalDAO updateStatus(@RequestParam Long animalId, @RequestParam boolean status);
 
     @GetMapping("/{id}")

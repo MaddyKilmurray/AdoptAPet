@@ -27,13 +27,13 @@ public class AdoptingService {
         this.circuitBreakerFactory = circuitBreakerFactory;
     }
 
-    public AdoptedDTO adoptAPet(Long id, AdopterRequestDTO adopterDTO) {
-        AnimalDAO foundAnimal = findAnimalById(id);
+    public AdoptedDTO adoptAPet(AdopterRequestDTO adopterDTO) {
+        AnimalDAO foundAnimal = findAnimalById(adopterDTO.getPet());
         if (!foundAnimal.isAdoptable()) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,"The requested pet has already been adopted.");
         }
         createAdopter(adopterDTO);
-        updateStatus(id,false);
+        updateStatus(foundAnimal.getAnimalId(),false);
         AdoptedDTO adoptedDTO = new AdoptedDTO(foundAnimal.getName(), foundAnimal.getType().toString(), adopterDTO.getName());
         return adoptedDTO;
     }
@@ -45,9 +45,10 @@ public class AdoptingService {
     }
 
     public AnimalDAO updateStatus(Long id, boolean status) {
-        CircuitBreaker circuitBreaker = createCircuitBreaker();
-        return circuitBreaker.run(() -> animalServiceProxy.updateStatus(id,status),
-                throwable -> patchAnimalFallback());
+//        CircuitBreaker circuitBreaker = createCircuitBreaker();
+//        return circuitBreaker.run(() -> animalServiceProxy.updateStatus(id,status),
+//                throwable -> patchAnimalFallback());
+        return animalServiceProxy.updateStatus(id,status);
     }
 
     public List<AnimalDAO> findAnimalByProperty(int startAge, int endAge, AnimalType type) {

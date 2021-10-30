@@ -49,7 +49,7 @@ public class AnimalController {
         return repository.save(animal);
     }
 
-    @PatchMapping("/adoptable")
+    @PutMapping("/adoptable")
     public AnimalDAO updateStatus(@RequestParam Long animalId, @RequestParam boolean status){
         Optional<AnimalDAO> animal = repository.findById(animalId);
         if (animal.isPresent()){

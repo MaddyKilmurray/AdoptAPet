@@ -18,10 +18,10 @@ public class AdoptingController {
     @Autowired
     AdoptingService adoptingService;
 
-    @PostMapping("/adopt/{id}")
+    @PostMapping("/adopt")
     @ResponseStatus(HttpStatus.OK)
-    public AdoptedDTO adoptAPet(@PathVariable(name = "id") Long id, @RequestBody AdopterRequestDTO adopterRequestDTO) {
-        return adoptingService.adoptAPet(id, adopterRequestDTO);
+    public AdoptedDTO adoptAPet(@RequestBody AdopterRequestDTO adopterRequestDTO) {
+        return adoptingService.adoptAPet(adopterRequestDTO);
     }
 
     @GetMapping("/adopt")
