@@ -1,8 +1,10 @@
 package com.ironhack.adoptingservice;
 
+import com.ironhack.adoptingservice.dao.AnimalDAO;
 import com.ironhack.adoptingservice.dto.AdoptedDTO;
 import com.ironhack.adoptingservice.dto.AdopterDTO;
 import com.ironhack.adoptingservice.dto.AnimalDTO;
+import com.ironhack.adoptingservice.enums.AnimalType;
 import com.ironhack.adoptingservice.proxy.AdopterServiceProxy;
 import com.ironhack.adoptingservice.proxy.AnimalServiceProxy;
 import org.slf4j.Logger;
@@ -12,6 +14,8 @@ import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Service
 public class AdoptingService {
@@ -36,8 +40,7 @@ public class AdoptingService {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,"The requested pet has already been adopted.");
         }
         createAdopter(adopterDTO);
-        AnimalDTO updatedAnimal = new AnimalDTO(foundAnimal.getName(), foundAnimal.getType(), foundAnimal.getAge(), false);
-        patchAnimal(updatedAnimal);
+        updateStatus(id,false);
         AdoptedDTO adoptedDTO = new AdoptedDTO();
     }
 
@@ -47,15 +50,15 @@ public class AdoptingService {
                 throwable -> getByIdFallback());
     }
 
-    public void patchAnimal(Long id, Boolean adoptable) {
+    public AnimalDAO updateStatus(Long id, Boolean adoptable) {
         CircuitBreaker circuitBreaker = createCircuitBreaker();
-        return circuitBreaker.run(() -> animalServiceProxy.patchAnimal(id,adoptable),
+        return circuitBreaker.run(() -> animalServiceProxy.updateStatus(id,adoptable),
                 throwable -> patchAnimalFallback());
     }
 
-    public List<Animal> findAnimalByProperty(String type, Long start, Long end) {
+    public List<AnimalDAO> findAnimalByProperty(int startAge, int endAge, AnimalType type) {
         CircuitBreaker circuitBreaker = createCircuitBreaker();
-        return circuitBreaker.run(() -> animalServiceProxy.findByProperty(type, start, end),
+        return circuitBreaker.run(() -> animalServiceProxy.findByTypeAndAgeAndType(startAge,endAge,type),
                 throwable -> getListFallback());
     }
 
@@ -74,7 +77,7 @@ public class AdoptingService {
         return null;
     }
 
-    public List<Animal> getListFallback() {
+    public List<AnimalDAO> getListFallback() {
         return null;
     }
 
@@ -82,7 +85,7 @@ public class AdoptingService {
         return;
     }
 
-    public void patchAnimalFallback() {
+    public AnimalDAO patchAnimalFallback() {
         return;
     }
 }
