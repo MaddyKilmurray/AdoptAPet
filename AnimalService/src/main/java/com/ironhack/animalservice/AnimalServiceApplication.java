@@ -11,3 +11,9 @@ public class AnimalServiceApplication {
     }
 
 }
+
+// 1. application properties x
+// 2. DAO Animal and DTO Animal x
+// 3. Controller Get, Post, Patch x
+// 4. Is service necessary? no
+// 5. Animal repo x
