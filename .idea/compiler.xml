@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="AnimalService" />
+        <module name="DiscoveryService" />
+        <module name="AdopterService" />
+        <module name="AdoptingService" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="AdopterService" target="11" />
+      <module name="AdoptingService" target="11" />
+      <module name="AnimalService" target="11" />
+      <module name="DiscoveryService" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="AdopterService" options="-parameters" />
+      <module name="AdoptingService" options="-parameters" />
+      <module name="AnimalService" options="-parameters" />
+      <module name="DiscoveryService" options="-parameters" />
+    </option>
+  </component>
+</project>
