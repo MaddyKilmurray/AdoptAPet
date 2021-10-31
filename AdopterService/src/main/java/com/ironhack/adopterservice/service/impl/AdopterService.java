@@ -24,9 +24,9 @@ public class AdopterService implements IAdopterService {
 
     public AdopterReceiptDTO create(AdopterRequestDTO adopterRequestDTO) {
         // Validate if Adopter already exists
-        Optional<Adopter> optionalAdopter = adopterRepository.findByName(adopterRequestDTO.getName());
-        if (optionalAdopter.isPresent()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Adopter with name " + adopterRequestDTO.getName() + " already exist");
-        Adopter adopter = new Adopter(adopterRequestDTO.getName(), adopterRequestDTO.getPet());
+        Optional<Adopter> optionalAdopter = adopterRepository.findByName(adopterRequestDTO.get_name());
+        if (optionalAdopter.isPresent()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Adopter with name " + adopterRequestDTO.get_name() + " already exist");
+        Adopter adopter = new Adopter(adopterRequestDTO.get_name(), adopterRequestDTO.get_pet());
         adopterRepository.save(adopter);
 
 

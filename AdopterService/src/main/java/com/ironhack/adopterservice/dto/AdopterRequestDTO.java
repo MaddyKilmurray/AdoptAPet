@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdopterRequestDTO {
-    private String name;
+    private String _name;
 
-    private Long pet;
+    private Long _pet;
 }

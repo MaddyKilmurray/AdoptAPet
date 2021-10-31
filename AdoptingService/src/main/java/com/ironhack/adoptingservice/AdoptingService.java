@@ -28,13 +28,14 @@ public class AdoptingService {
     }
 
     public AdoptedDTO adoptAPet(AdopterRequestDTO adopterDTO) {
-        AnimalDAO foundAnimal = findAnimalById(adopterDTO.getPet());
+        System.out.println(adopterDTO.get_name());
+        AnimalDAO foundAnimal = findAnimalById(adopterDTO.get_pet());
         if (!foundAnimal.isAdoptable()) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,"The requested pet has already been adopted.");
         }
         createAdopter(adopterDTO);
         updateStatus(foundAnimal.getAnimalId(),false);
-        AdoptedDTO adoptedDTO = new AdoptedDTO(foundAnimal.getName(), foundAnimal.getType().toString(), adopterDTO.getName());
+        AdoptedDTO adoptedDTO = new AdoptedDTO(foundAnimal.getName(), foundAnimal.getType().toString(), adopterDTO.get_name());
         return adoptedDTO;
     }
 

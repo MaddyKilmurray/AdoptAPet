@@ -22,7 +22,6 @@ public class AdopterController {
     @Autowired
     IAdopterService adopterService;
 
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AdopterReceiptDTO create(@RequestBody @Valid AdopterRequestDTO adopterRequestDTO) {
